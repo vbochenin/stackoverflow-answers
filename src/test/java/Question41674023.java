@@ -177,17 +177,23 @@ public class Question41674023 {
     }
 
 //
-//    public void tt() {
-//        if (!(((java.lang.String) source.getStringA()) == null)) {
-//            if (((((java.util.List) destination.getSomeObjects()).size() <= 0 || ((Question41674023.SomeObject) ((java.util.List) destination.getSomeObjects()).get(0)) == null))) {
-//                ((java.util.List) destination.getSomeObjects()).add(0, ((Question41674023.SomeObject) ((ma.glasnost.orika.BoundMapperFacade) usedMapperFacades[0]).newObject(((java.lang.String) source.getStringA()), mappingContext)));
+//    public void tt(A source, B destination) {
+//        b.setOtherField(a.getOtherField());
+//        if (customMapper != null) {
+//            customMapper.map(source, destination);
+//        }
+//
+//    }
+//        if (source.getStringA() != null) {
+//            if (((((java.util.List) destination.getSomeObjects()).size() <= 0 || ((List) destination.getSomeObjects()).get(0) == null))) {
+//                ((java.util.List) destination.getSomeObjects()).add(0, ((BoundMapperFacade) usedMapperFacades[0]).newObject(((String) source.getStringA()), mappingContext));
 //            }
 //        }
 //
 //        if (!(((java.lang.String) source.getStringA()) == null)) {
-//            ((Question41674023.SomeObject) ((java.util.List) destination.getSomeObjects()).get(0)).setStringSomeObject(((java.lang.String) source.getStringA()));
-//        } else if (!(((java.util.List) destination.getSomeObjects()) == null) && !((((java.util.List) destination.getSomeObjects()).size() <= 0 || ((Question41674023.SomeObject) ((java.util.List) destination.getSomeObjects()).get(0)) == null))) {
-//            ((Question41674023.SomeObject) ((java.util.List) destination.getSomeObjects()).get(0)).setStringSomeObject(null);
+//            (((java.util.List) destination.getSomeObjects()).get(0)).setStringSomeObject(source.getStringA());
+//        } else if (!(((java.util.List) destination.getSomeObjects()) == null) && !((((java.util.List) destination.getSomeObjects()).size() <= 0 || ((List) destination.getSomeObjects()).get(0) == null))) {
+//            ( ((java.util.List) destination.getSomeObjects()).get(0)).setStringSomeObject(null);
 //        }
 //    }
 }
