@@ -1,4 +1,5 @@
 import ma.glasnost.orika.CustomConverter;
+import ma.glasnost.orika.CustomMapper;
 import ma.glasnost.orika.MapperFactory;
 import ma.glasnost.orika.MappingContext;
 import ma.glasnost.orika.converter.ConverterFactory;
@@ -12,9 +13,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.hamcrest.CoreMatchers.is;
+
 public class Question41674023 {
     public static class A {
         private String stringA;
+        private Integer numA;
 
         public String getStringA() {
             return stringA;
@@ -24,9 +28,17 @@ public class Question41674023 {
             this.stringA = stringA;
         }
 
+        public Integer getNumA() {
+            return numA;
+        }
+
+        public void setNumA(Integer numA) {
+            this.numA = numA;
+        }
     }
 
     public static class B {
+        private Integer numB;
 
         List<SomeObject> someObjects;
 
@@ -39,6 +51,14 @@ public class Question41674023 {
 
         public void setSomeObjects(List<SomeObject> someObjects) {
             this.someObjects = someObjects;
+        }
+
+        public Integer getNumB() {
+            return numB;
+        }
+
+        public void setNumB(Integer numB) {
+            this.numB = numB;
         }
     }
 
@@ -58,11 +78,9 @@ public class Question41674023 {
 
         @Override
         protected void configure(MapperFactory factory) {
-            ConverterFactory converterFactory = factory.getConverterFactory();
-            converterFactory.registerConverter("stringToListConverter", new StringToSomeObjectConverter());
-
-            factory.classMap(A.class, B.class) //
-                    .fieldMap("stringA", "someObjects").converter("stringToListConverter").add()
+            factory.classMap(A.class, B.class)
+                    .field("stringA", "someObjects[0].stringSomeObject")
+                    .field("numA", "numB")
                     .byDefault()
                     .register();
         }
@@ -88,9 +106,12 @@ public class Question41674023 {
     public void testMap() throws Exception {
         A a = new A();
         a.setStringA("a");
+        a.setNumA(42);
 
         B outcome = new MyMapper().map(a, B.class);
 
-        Assert.assertThat(outcome.getSomeObjects().size(), CoreMatchers.is(1));
+        Assert.assertThat(outcome.getSomeObjects().size(), is(1));
+        Assert.assertThat(outcome.numB, is(a.getNumA()));
+
     }
 }
