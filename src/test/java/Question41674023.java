@@ -1,11 +1,7 @@
-import ma.glasnost.orika.CustomConverter;
-import ma.glasnost.orika.CustomMapper;
-import ma.glasnost.orika.MapperFactory;
-import ma.glasnost.orika.MappingContext;
+import ma.glasnost.orika.*;
 import ma.glasnost.orika.converter.ConverterFactory;
 import ma.glasnost.orika.impl.ConfigurableMapper;
 import ma.glasnost.orika.metadata.Type;
-import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -49,10 +45,6 @@ public class Question41674023 {
             return someObjects;
         }
 
-        public void setSomeObjects(List<SomeObject> someObjects) {
-            this.someObjects = someObjects;
-        }
-
         public Integer getNumB() {
             return numB;
         }
@@ -75,6 +67,43 @@ public class Question41674023 {
     }
 
     public static class MyMapper extends ConfigurableMapper {
+
+        @Override
+        protected void configure(MapperFactory factory) {
+            ConverterFactory converterFactory = factory.getConverterFactory();
+            converterFactory.registerConverter("stringToSomeObjectConverter", new StringToSomeObjectConverter());
+            factory.classMap(A.class, B.class)
+                    .fieldMap("stringA", "someObjects").converter("stringToSomeObjectConverter").add()
+                    .field("numA", "numB")
+                    .register();
+        }
+
+    }
+
+    public static class MyCustomizedMapper extends ConfigurableMapper {
+
+        @Override
+        protected void configure(MapperFactory factory) {
+            factory.classMap(A.class, B.class)
+                    .customize(
+                            new CustomMapper<A, B>() {
+                                @Override
+                                public void mapAtoB(A a, B b, MappingContext context) {
+                                    SomeObject someObject = new SomeObject();
+                                    someObject.setStringSomeObject(a.getStringA());
+                                    b.getSomeObjects().add(someObject);
+                                }
+                            }
+                    )
+                    .field("numA", "numB")
+                    .byDefault()
+                    .register();
+        }
+
+    }
+
+
+    public static class MyArraySyntaxMapper extends ConfigurableMapper {
 
         @Override
         protected void configure(MapperFactory factory) {
@@ -104,6 +133,8 @@ public class Question41674023 {
 
     @Test
     public void testMap() throws Exception {
+        System.setProperty(OrikaSystemProperties.WRITE_SOURCE_FILES, "true");
+        System.setProperty(OrikaSystemProperties.WRITE_CLASS_FILES, "true");
         A a = new A();
         a.setStringA("a");
         a.setNumA(42);
@@ -112,6 +143,51 @@ public class Question41674023 {
 
         Assert.assertThat(outcome.getSomeObjects().size(), is(1));
         Assert.assertThat(outcome.numB, is(a.getNumA()));
-
     }
+
+    @Test
+    public void testMapArraySytax() throws Exception {
+        System.setProperty(OrikaSystemProperties.WRITE_SOURCE_FILES, "true");
+        System.setProperty(OrikaSystemProperties.WRITE_CLASS_FILES, "true");
+        A a = new A();
+        a.setStringA("a");
+        a.setNumA(42);
+
+        B outcome = new MyArraySyntaxMapper().map(a, B.class);
+
+        Assert.assertThat(outcome.getSomeObjects().size(), is(1));
+        Assert.assertThat(outcome.numB, is(a.getNumA()));
+    }
+
+    @Test
+    public void testCustomizedMap() throws Exception {
+        // Write out source files to (classpath:)/ma/glasnost/orika/generated/
+        System.setProperty(OrikaSystemProperties.WRITE_SOURCE_FILES, "true");
+
+// Write out class files to (classpath:)/ma/glasnost/orika/generated/
+        System.setProperty(OrikaSystemProperties.WRITE_CLASS_FILES, "true");
+        A a = new A();
+        a.setStringA("a");
+        a.setNumA(42);
+
+        B outcome = new MyCustomizedMapper().map(a, B.class);
+
+        Assert.assertThat(outcome.getSomeObjects().size(), is(1));
+        Assert.assertThat(outcome.numB, is(a.getNumA()));
+    }
+
+//
+//    public void tt() {
+//        if (!(((java.lang.String) source.getStringA()) == null)) {
+//            if (((((java.util.List) destination.getSomeObjects()).size() <= 0 || ((Question41674023.SomeObject) ((java.util.List) destination.getSomeObjects()).get(0)) == null))) {
+//                ((java.util.List) destination.getSomeObjects()).add(0, ((Question41674023.SomeObject) ((ma.glasnost.orika.BoundMapperFacade) usedMapperFacades[0]).newObject(((java.lang.String) source.getStringA()), mappingContext)));
+//            }
+//        }
+//
+//        if (!(((java.lang.String) source.getStringA()) == null)) {
+//            ((Question41674023.SomeObject) ((java.util.List) destination.getSomeObjects()).get(0)).setStringSomeObject(((java.lang.String) source.getStringA()));
+//        } else if (!(((java.util.List) destination.getSomeObjects()) == null) && !((((java.util.List) destination.getSomeObjects()).size() <= 0 || ((Question41674023.SomeObject) ((java.util.List) destination.getSomeObjects()).get(0)) == null))) {
+//            ((Question41674023.SomeObject) ((java.util.List) destination.getSomeObjects()).get(0)).setStringSomeObject(null);
+//        }
+//    }
 }
