@@ -1,3 +1,4 @@
+import one.util.streamex.IntStreamEx;
 import one.util.streamex.StreamEx;
 
 import java.text.SimpleDateFormat;
@@ -36,6 +37,8 @@ public class Question41634365 {
                 .mapKeys(item -> Json.createObjectBuilder().add("createdBy", item.getCreatedBy()))
                 .mapKeyValue(this::addField)
                 .forEach(groupsBuilder::add);
+
+
     }
 
     private JsonObjectBuilder addField(JsonObjectBuilder json, Class2 class2) {
