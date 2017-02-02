@@ -1,12 +1,19 @@
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Preconditions;
 import one.util.streamex.IntStreamEx;
 import one.util.streamex.StreamEx;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+
+import static javafx.scene.input.KeyCode.O;
 
 public class Question41634365 {
     BaseManager baseManager = new BaseManager();
@@ -43,6 +50,7 @@ public class Question41634365 {
 
     private JsonObjectBuilder addField(JsonObjectBuilder json, Class2 class2) {
         // You logic how to convert class2 to field in JSON
+
         return json;
     }
 
@@ -55,6 +63,13 @@ public class Question41634365 {
 
         public Object getCreatedBy() {
             return createdBy;
+        }
+
+
+
+        @Override
+        public String toString() {
+            return ReflectionToStringBuilder.toString(this, ToStringStyle.MULTI_LINE_STYLE);
         }
     }
 

@@ -167,12 +167,12 @@ public class TestReactor {
 
     @Test
     public void testMessages() {
-        Flux.fromStream(incomingMessages())
-                .groupBy(Message::getEntityId)
+        Flux.fromStream(incomingMessages()) // listener for new data from socket
+                .groupBy(Message::getEntityId) // split incoming messges by groups, which should be processed serially
                 .map(g -> g.publishOn(Schedulers.newParallel("groupByPool", 16))) //create new publisher for groups of messages
                 .subscribe( //create consumer for main stream
                         stream ->
-                                stream.subscribe(this::processMessage) // create consumer for group stream
+                                stream.subscribe(this::processMessage) // create consumer for group stream and process messagaes
                 );
     }
 

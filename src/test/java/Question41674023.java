@@ -43,7 +43,9 @@ public class Question41674023 {
                 someObjects = new ArrayList<SomeObject>();
             }
             return someObjects;
+
         }
+
 
         public Integer getNumB() {
             return numB;
@@ -147,6 +149,29 @@ public class Question41674023 {
 
     @Test
     public void testMapArraySytax() throws Exception {
+
+        List<Character> listchars = new ArrayList<>();
+
+        String sb;
+
+        sb = "cba"
+                .chars()
+                .sorted()
+                .mapToObj(value -> (char) value)
+                .collect(StringBuilder::new, StringBuilder::append, StringBuilder::append)
+                .toString();
+
+        System.out.println(sb);
+
+        sb = "cbasfjdhbfgudbh834yt37yt"
+                .chars()
+                .sorted()
+                .mapToObj(value -> (char) value)
+                .toString()
+        ;
+        System.out.println(sb);
+
+
         System.setProperty(OrikaSystemProperties.WRITE_SOURCE_FILES, "true");
         System.setProperty(OrikaSystemProperties.WRITE_CLASS_FILES, "true");
         A a = new A();
