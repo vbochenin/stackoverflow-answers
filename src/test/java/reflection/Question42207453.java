@@ -48,14 +48,24 @@ public class Question42207453 {
 
         @Override
         public A put(Class<? extends A> key, A value) {
-            if (!hierarchyMap.containsKey(key)) {
-                Set<Class<? extends A>> assignableClasses = new HashSet<>();
-                assignableClasses.add(key);
-                assignableClasses.addAll(getSuperClasses(key));
-                assignableClasses.addAll(getInterfaces(key));
-                hierarchyMap.put(key, assignableClasses);
-            }
+            calcHierarchyFor(key);
             return super.put(key, value);
+        }
+
+        private void calcHierarchyFor(Class<? extends A> key) {
+            if (hierarchyMap.containsKey(key)) {
+                return;
+            }
+            Set<Class<? extends A>> assignableClasses = new HashSet<>();
+
+            assignableClasses.addAll(getSuperClasses(key));
+            assignableClasses.addAll(getInterfaces(key));
+            for (Class<? extends A> assignableClass : assignableClasses) {
+                calcHierarchyFor(assignableClass);
+            }
+
+            assignableClasses.add(key);
+            hierarchyMap.put(key, assignableClasses);
         }
 
         public List<A> getAllValuesInHierarchy(Class<? extends A> key) {
