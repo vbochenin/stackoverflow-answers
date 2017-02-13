@@ -3,6 +3,7 @@ package jackson;
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.deser.BeanDeserializerModifier;
 import com.fasterxml.jackson.databind.deser.std.DelegatingDeserializer;
@@ -11,12 +12,15 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.google.common.reflect.Reflection;
 import org.junit.Test;
 
+import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static org.apache.coyote.http11.Constants.a;
 
 public class Question41958263 {
     public static class Customers{
@@ -137,7 +141,57 @@ public class Question41958263 {
 
 //        Customers c = mapper.readValue(json, Customers.class);
         System.out.println(c);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        Map<String, Object> map = objectMapper.readValue(
+                "{ \"XML\": { \"version\": 1.0, \"encoding\": \"UTF-8\" }, \"Comment\": \"ABC EFG Json\", \"pCt\": { \"pCHead\": \n" +
+                        "{ \"Date\": \"9999-12-31\", \"ID \": \"12345 \", \"Type\": \"ABC\", \"prtList\": \n" +
+                        "[{ \"cCType\": \"B\", \"cReason\": \"\", \"oInd\": 10 }], \"pNet\": [{ \"seType\": \"3\", \n" +
+                        "\"eDate\": \"2016-10-01\", \"exDate\": \"9999-12-31\"\n" +
+                        "\n" +
+                        "        }]\n" +
+                        "    }\n" +
+                        "}\n" +
+                        "}", new TypeReference<Map<String, Object>>() {
+        });
+
+        System.out.println(map);
+
     }
+
+    @Test
+    public float testNumbers() {
+        float givennumber = -5;
+        float[] array={-10, 1, 2,3, 5, 10, 100};
+        float distance = Float.MAX_VALUE;
+        int idx = -1;
+        for(int c = 0; c < array.length; c++) {
+            float cdistance = array[c] - givennumber;
+            if (cdistance > 0 && distance > cdistance) {
+                distance = cdistance;
+                idx = c;
+            }
+        }
+        if (idx < 0) {
+            return Float.NaN; //return NaN if array doesn't contains a number (you can use Float.isNaN() to check result of function)
+        } else {
+            return array[idx]; //return nearest largest;
+        }
+    }
+
+
+    public static void main(String... args) {
+        try {
+            System.out.println("000000");
+            throw new RuntimeException();
+        } catch (Exception e) {
+            System.out.println("111111");
+            System.exit(0);
+        } finally {
+            System.out.println("2222222");
+        }
+    }
+
 
     @Test
     public void test() {
