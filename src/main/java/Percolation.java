@@ -1,5 +1,6 @@
 public class Percolation {
     private final int[] id;
+    private final int[] opened;
     private final int[] size;
     private final int n;
     private int openSitesCount;
@@ -13,11 +14,15 @@ public class Percolation {
         this.n = n;
         int size = n * n + 2;
         this.id = new int[size];
+        this.opened = new int[size];
         this.size = new int[size];
         for (int i = 0; i < id.length; i++) {
             id[i] = i;
+            opened[i] = 0;
             this.size[i] = 1;
         }
+        opened[0] = 1;
+        opened[size - 1] = 1;
     }
 
     // open site (row, col) if it is not open already
@@ -36,8 +41,8 @@ public class Percolation {
             if (neighbour < 0) {
                 continue;
             }
-
-            union(idx, neighbour);
+            if (opened[neighbour] > 0)
+                union(idx, neighbour);
         }
 
         if (row == 1) {
@@ -46,7 +51,7 @@ public class Percolation {
         if (row == n) {
             union(idx, n * n + 1);
         }
-
+        opened[idx] = 1;
         openSitesCount++;
     }
 
@@ -64,7 +69,7 @@ public class Percolation {
         checkRowAndCol(row, col);
 
         int index = getIndex(row, col);
-        return id[index] != index;
+        return opened[index] != 0;
     }
 
     // is site (row, col) full?
@@ -72,12 +77,7 @@ public class Percolation {
         checkRowAndCol(row, col);
 
         int idx = getIndex(row, col);
-        for (int i = 0; i < n; i++) {
-            if (connected(idx, i)) {
-                return true;
-            }
-        }
-        return false;
+        return connected(idx, 0);
     }
 
     // number of open sites
@@ -128,7 +128,58 @@ public class Percolation {
 
     public static void main(String[] args) {
         Percolation percolation = new Percolation(5);
-        percolation.open();
+        percolation.open(1, 4);
+        if (percolation.percolates()) {
+            throw new RuntimeException("!");
+        }
+        percolation.open(2, 3);
+        if (percolation.percolates()) {
+            throw new RuntimeException("!");
+        }
+        percolation.open(3, 2);
+        if (percolation.percolates()) {
+            throw new RuntimeException("!");
+        }
+        percolation.open(3, 2);
+        if (percolation.percolates()) {
+            throw new RuntimeException("!");
+        }
+        percolation.open(4, 3);
+        if (percolation.percolates()) {
+            throw new RuntimeException("!");
+        }
+        percolation.open(3, 3);
+        if (percolation.percolates()) {
+            throw new RuntimeException("!");
+        }
+        percolation.open(3, 3);
+        if (percolation.percolates()) {
+            throw new RuntimeException("!");
+        }
+        percolation.open(1, 3);
+        if (percolation.percolates()) {
+            throw new RuntimeException("!");
+        }
+
+        percolation.open(5, 5);
+        if (percolation.percolates()) {
+            throw new RuntimeException("!");
+        }
+
+        percolation.open(5, 4);
+        if (percolation.percolates()) {
+            throw new RuntimeException("!");
+        }
+
+        percolation.open(5, 2);
+        if (percolation.percolates()) {
+            throw new RuntimeException("!");
+        }
+
+        percolation.open(5, 3);
+        if (!percolation.percolates()) {
+            throw new RuntimeException("!");
+        }
 
     }
 }

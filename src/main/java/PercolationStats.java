@@ -1,7 +1,9 @@
 public class PercolationStats {
+
+    private final Percolation percolation;
     // perform trials independent experiments on an n-by-n grid
     public PercolationStats(int n, int trials) {
-
+        this.percolation = new Percolation(n);
     }
     // sample mean of percolation threshold
     public double mean()  {
