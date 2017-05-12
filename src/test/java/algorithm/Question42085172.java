@@ -2,7 +2,10 @@ package algorithm;
 
 import org.junit.Test;
 
+import java.io.File;
 import java.util.*;
+
+import static javafx.scene.input.KeyCode.T;
 
 public class Question42085172 {
     private static HashSet<String> permutation(String prefix, String str) {
@@ -121,4 +124,56 @@ public class Question42085172 {
         System.out.println(perms.size());
     }
 
+
+    public interface BaseEnum {
+        public String getFontName();
+        public File getLocation();
+    }
+
+    public enum ServerStatus implements BaseEnum{
+        NEW(0) {
+            @Override
+            public String getFontName() {
+                return null;
+            }
+
+            @Override
+            public File getLocation() {
+                return null;
+            }
+        },
+        NEW2(1) {
+            @Override
+            public String getFontName() {
+                return null;
+            }
+
+            @Override
+            public File getLocation() {
+                return null;
+            }
+        };
+        private int value;
+
+        ServerStatus(int value) {
+            this.value = value;
+        }
+
+        public int getValue() {
+            return value;
+        }
+    }
+
+    public class StatusConverter<T extends BaseEnum> implements AttributeConverter<T,Integer> {
+
+        @Override
+        public Integer convertToDatabaseColumn(T t) {
+            return null;
+        }
+
+        @Override
+        public T convertToEntityAttribute(Integer integer) {
+            return null;
+        }
+    }
 }
