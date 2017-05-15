@@ -1,9 +1,6 @@
 import edu.princeton.cs.algs4.StdOut;
+import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.StdStats;
-
-import static edu.princeton.cs.algs4.StdRandom.uniform;
-import static java.lang.Math.pow;
-import static java.lang.Math.sqrt;
 
 public class PercolationStats {
 
@@ -26,11 +23,11 @@ public class PercolationStats {
     private int makeTrial(int n) {
         Percolation percolation = new Percolation(n);
         while (!percolation.percolates()) {
-            int row = uniform(n) + 1;
-            int col = uniform(n) + 1;
+            int row = StdRandom.uniform(n) + 1;
+            int col = StdRandom.uniform(n) + 1;
             while (percolation.isOpen(row, col)) {
-                row = uniform(n) + 1;
-                col = uniform(n) + 1;
+                row = StdRandom.uniform(n) + 1;
+                col = StdRandom.uniform(n) + 1;
             }
             percolation.open(row, col);
         }
@@ -51,22 +48,22 @@ public class PercolationStats {
     public double confidenceLo() {
         double mean = mean();
         double s = getS(mean);
-        return mean - 1.96 * s / sqrt(trialResults.length);
+        return mean - 1.96 * s / Math.sqrt(trialResults.length);
     }
 
     // high endpoint of 95% confidence interval
     public double confidenceHi() {
         double mean = mean();
         double s = getS(mean);
-        return mean + 1.96 * s / sqrt(trialResults.length);
+        return mean + 1.96 * s / Math.sqrt(trialResults.length);
     }
 
-    public double getS(double mean) {
+    private double getS(double mean) {
         double result = 0.;
         for (double trialResult : trialResults) {
-            result += pow(trialResult - mean, 2);
+            result += Math.pow(trialResult - mean, 2);
         }
-        return sqrt(result / (trialResults.length - 1));
+        return Math.sqrt(result / (trialResults.length - 1));
     }
 
     // test client (described below)

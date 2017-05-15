@@ -12,7 +12,7 @@ public class Percolation {
             throw new IllegalArgumentException("n must be > 0");
         }
         this.n = n;
-        int size = n * n + 2;
+        int size = n * n + 1;
         this.id = new int[size];
         this.opened = new int[size];
         this.size = new int[size];
@@ -22,7 +22,6 @@ public class Percolation {
             this.size[i] = 1;
         }
         opened[0] = 1;
-        opened[size - 1] = 1;
     }
 
     // open site (row, col) if it is not open already
@@ -47,9 +46,6 @@ public class Percolation {
 
         if (row == 1) {
             union(idx, 0);
-        }
-        if (row == n) {
-            union(idx, n * n + 1);
         }
         opened[idx] = 1;
         openSitesCount++;
@@ -87,7 +83,12 @@ public class Percolation {
 
     // does the system percolate?
     public boolean percolates() {
-        return connected(0, n * n + 1);
+        for (int i = n * n - n; i <= n * n; i++) {
+            if (connected(0, i)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void union(int p, int q) {
