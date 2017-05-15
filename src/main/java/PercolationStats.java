@@ -90,6 +90,7 @@ public class PercolationStats {
         PercolationStats percolationStats = new PercolationStats(n, trials);
         StdOut.println("mean                    = " + percolationStats.mean());
         StdOut.println("stddev                  = " + percolationStats.stddev());
-        StdOut.println("95% confidence interval = [" + percolationStats.confidenceLo() + ", " + percolationStats.confidenceHi());
+        StdOut.println("95% confidence interval = [" + percolationStats.confidenceLo() + ", " +
+                percolationStats.confidenceHi());
     }
 }

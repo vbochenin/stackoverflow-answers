@@ -1,9 +1,11 @@
+import edu.princeton.cs.algs4.WeightedQuickUnionUF;
+
 public class Percolation {
-    private final int[] id;
-    private final int[] opened;
-    private final int[] size;
+    private final boolean[] opened;
     private final int n;
     private int openSitesCount;
+
+    private WeightedQuickUnionUF weightedQuickUnionUF;
 
 
     // create n-by-n grid, with all sites blocked
@@ -12,21 +14,23 @@ public class Percolation {
             throw new IllegalArgumentException("n must be > 0");
         }
         this.n = n;
-        int size = n * n + 1;
-        this.id = new int[size];
-        this.opened = new int[size];
-        this.size = new int[size];
-        for (int i = 0; i < id.length; i++) {
-            id[i] = i;
-            opened[i] = 0;
-            this.size[i] = 1;
+        int matrixSize = n * n + 1;
+
+        weightedQuickUnionUF = new WeightedQuickUnionUF(matrixSize);
+        this.opened = new boolean[matrixSize];
+        for (int i = 0; i < n; i++) {
+            opened[i] = false;
         }
-        opened[0] = 1;
+        opened[0] = true;
     }
 
     // open site (row, col) if it is not open already
     public void open(int row, int col) {
         checkRowAndCol(row, col);
+
+        if (isOpen(row, col)) {
+            return;
+        }
 
         int idx = getIndex(row, col);
         int[] neighbours = new int[]{
@@ -40,23 +44,23 @@ public class Percolation {
             if (neighbour < 0) {
                 continue;
             }
-            if (opened[neighbour] > 0)
-                union(idx, neighbour);
+            if (opened[neighbour])
+                weightedQuickUnionUF.union(neighbour, idx);
         }
 
         if (row == 1) {
-            union(idx, 0);
+            weightedQuickUnionUF.union(0, idx);
         }
-        opened[idx] = 1;
+        opened[idx] = true;
         openSitesCount++;
     }
 
     private void checkRowAndCol(int row, int col) {
         if (row < 1 || row > n) {
-            throw new IllegalArgumentException("row must be between 1 and n");
+            throw new IndexOutOfBoundsException("row must be between 1 and n");
         }
         if (col < 1 || col > n) {
-            throw new IllegalArgumentException("row must be between 1 and n");
+            throw new IndexOutOfBoundsException("row must be between 1 and n");
         }
     }
 
@@ -65,7 +69,7 @@ public class Percolation {
         checkRowAndCol(row, col);
 
         int index = getIndex(row, col);
-        return opened[index] != 0;
+        return opened[index];
     }
 
     // is site (row, col) full?
@@ -73,7 +77,7 @@ public class Percolation {
         checkRowAndCol(row, col);
 
         int idx = getIndex(row, col);
-        return connected(idx, 0);
+        return weightedQuickUnionUF.connected(0, idx);
     }
 
     // number of open sites
@@ -83,37 +87,12 @@ public class Percolation {
 
     // does the system percolate?
     public boolean percolates() {
-        for (int i = n * n - n; i <= n * n; i++) {
-            if (connected(0, i)) {
+        for (int i = n * n - n + 1; i <= n * n; i++) {
+            if (weightedQuickUnionUF.connected(0, i)) {
                 return true;
             }
         }
         return false;
-    }
-
-    private void union(int p, int q) {
-        int i = root(p);
-        int j = root(q);
-        if (i == j) return;
-        if (size[i] < size[j]) {
-            id[i] = j;
-            size[j] += size[i];
-        } else {
-            id[j] = i;
-            size[i] += size[j];
-        }
-    }
-
-    private int root(int i) {
-        while (i != id[i]) {
-            id[i] = id[id[i]];
-            i = id[i];
-        }
-        return i;
-    }
-
-    private boolean connected(int p, int q) {
-        return root(p) == root(q);
     }
 
     private int getIndex(int row, int col) {
@@ -128,59 +107,6 @@ public class Percolation {
     }
 
     public static void main(String[] args) {
-        Percolation percolation = new Percolation(5);
-        percolation.open(1, 4);
-        if (percolation.percolates()) {
-            throw new RuntimeException("!");
-        }
-        percolation.open(2, 3);
-        if (percolation.percolates()) {
-            throw new RuntimeException("!");
-        }
-        percolation.open(3, 2);
-        if (percolation.percolates()) {
-            throw new RuntimeException("!");
-        }
-        percolation.open(3, 2);
-        if (percolation.percolates()) {
-            throw new RuntimeException("!");
-        }
-        percolation.open(4, 3);
-        if (percolation.percolates()) {
-            throw new RuntimeException("!");
-        }
-        percolation.open(3, 3);
-        if (percolation.percolates()) {
-            throw new RuntimeException("!");
-        }
-        percolation.open(3, 3);
-        if (percolation.percolates()) {
-            throw new RuntimeException("!");
-        }
-        percolation.open(1, 3);
-        if (percolation.percolates()) {
-            throw new RuntimeException("!");
-        }
-
-        percolation.open(5, 5);
-        if (percolation.percolates()) {
-            throw new RuntimeException("!");
-        }
-
-        percolation.open(5, 4);
-        if (percolation.percolates()) {
-            throw new RuntimeException("!");
-        }
-
-        percolation.open(5, 2);
-        if (percolation.percolates()) {
-            throw new RuntimeException("!");
-        }
-
-        percolation.open(5, 3);
-        if (!percolation.percolates()) {
-            throw new RuntimeException("!");
-        }
 
     }
 }

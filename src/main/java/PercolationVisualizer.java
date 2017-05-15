@@ -25,7 +25,7 @@ import edu.princeton.cs.algs4.StdDraw;
 public class PercolationVisualizer {
 
     // delay in miliseconds (controls animation speed)
-    private static final int DELAY = 100;
+    private static final int DELAY = 1000;
 
     // draw n-by-n percolation system
     public static void draw(Percolation perc, int n) {
@@ -75,13 +75,19 @@ public class PercolationVisualizer {
         draw(perc, n);
         StdDraw.show();
         StdDraw.pause(DELAY);
+        int step = 1;
         while (!in.isEmpty()) {
             int i = in.readInt();
             int j = in.readInt();
             perc.open(i, j);
+            System.out.printf("Step N%s %n", step);
+            System.out.printf("Open: %s x %s %n", i, j);
+            System.out.printf("isOpen: %s%n", perc.isOpen(i, j));
+            System.out.printf("isPercolates: %s %n", perc.percolates());
             draw(perc, n);
             StdDraw.show();
             StdDraw.pause(DELAY);
+            step++;
         }
         System.out.printf("is perlocastes: %s%n", perc.percolates());
     }
