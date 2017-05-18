@@ -114,7 +114,7 @@ public class Deque<Item> implements Iterable<Item> {
 
         return new Iterator<Item>() {
 
-            Linked<Item> current = first;
+            private Linked<Item> current = first;
 
             @Override
             public boolean hasNext() {
