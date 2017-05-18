@@ -5,12 +5,13 @@ import java.util.NoSuchElementException;
 
 public class RandomizedQueue<Item> implements Iterable<Item> {
 
+    public static final int INITIAL_SIZE = 100;
     private Object[] items;
 
     private int size = 0;
 
     public RandomizedQueue() {
-        items = new Object[100];
+        items = new Object[INITIAL_SIZE];
     }
 
     public boolean isEmpty() {
@@ -69,7 +70,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }
 
     private void narrow() {
-        if (items.length >= size * 4) {
+        if ((items.length >= size * 4) && (items.length >= INITIAL_SIZE)) {
             Object[] newItems = new Object[items.length / 2];
             System.arraycopy(items, 0, newItems, 0, size);
             items = newItems;
@@ -77,7 +78,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }
 
     public Iterator<Item> iterator() {
-        RandomizedQueue copy = new RandomizedQueue();
+        RandomizedQueue<Item> copy = new RandomizedQueue<>();
         copy.items = new Object[size];
         System.arraycopy(items, 0, copy.items, 0, size);
         copy.size = size;
@@ -89,6 +90,9 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
             @Override
             public Item next() {
+                if (!hasNext()) {
+                    throw new NoSuchElementException("!");
+                }
                 return cast(copy.dequeue());
             }
         };
