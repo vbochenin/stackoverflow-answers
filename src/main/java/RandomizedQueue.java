@@ -5,7 +5,7 @@ import java.util.NoSuchElementException;
 
 public class RandomizedQueue<Item> implements Iterable<Item> {
 
-    public static final int INITIAL_SIZE = 100;
+    private static final int INITIAL_SIZE = 100;
     private Object[] items;
 
     private int size = 0;
