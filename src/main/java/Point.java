@@ -13,7 +13,6 @@ import java.util.Comparator;
 
 public class Point implements Comparable<Point> {
 
-    private static final double DELTA = 0.000000001;
     private final int x;     // x-coordinate of this point
     private final int y;     // y-coordinate of this point
 
@@ -61,7 +60,7 @@ public class Point implements Comparable<Point> {
      */
     public double slopeTo(Point that) {
         if (that == null) {
-            throw new IllegalArgumentException("!");
+            throw new NullPointerException("!");
         }
 
         if (this.x == that.x) {
@@ -113,19 +112,12 @@ public class Point implements Comparable<Point> {
             @Override
             public int compare(Point o1, Point o2) {
                 if (o1 == null || o2 == null) {
-                    throw new IllegalArgumentException("!");
+                    throw new NullPointerException("!");
                 }
                 double slope1 = current.slopeTo(o1);
                 double slope2 = current.slopeTo(o2);
 
-                if (slope2 - slope1 > DELTA) {
-                    return 1;
-                }
-
-                if (slope1 - slope2 > DELTA) {
-                    return -1;
-                }
-                return 0;
+                return Double.compare(slope1, slope2);
             }
         };
     }
