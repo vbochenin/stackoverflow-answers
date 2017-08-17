@@ -55,7 +55,7 @@ public class BruteCollinearPoints {
             if (current.compareTo(points[i]) == 0) {
                 throw new IllegalArgumentException("!");
             }
-            current = points[1];
+            current = points[i];
         }
     }
 
@@ -81,22 +81,17 @@ public class BruteCollinearPoints {
         return segments;
     }
 
-//    public static void main(String... args) {
-//        //3000, 4000) -> (6000, 7000) -> (14000, 15000) -> (20000, 21000
-//
-//        BruteCollinearPoints p = new BruteCollinearPoints(new Point[] {
-//                new Point(10000, 0),
-//                new Point(0, 10000),
-//                new Point(3000, 7000),
-//                new Point(7000, 3000),
-//                new Point(20000, 21000),
-//                new Point(3000, 4000),
-//                new Point(14000, 15000),
-//                new Point(6000, 7000)
-//        });
-//
-//
-//
-//        p.segments();
-//    }
+    public static void main(String... args) {
+        //3000, 4000) -> (6000, 7000) -> (14000, 15000) -> (20000, 21000
+
+        BruteCollinearPoints p = new BruteCollinearPoints(new Point[]{
+                new Point(13232, 5811),
+                new Point(22833, 7661),
+                new Point(22280, 31792),
+                new Point(11482, 4999),
+                new Point(22280, 31792)});
+
+
+        p.segments();
+    }
 }

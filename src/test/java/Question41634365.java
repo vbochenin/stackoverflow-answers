@@ -1,19 +1,14 @@
-import com.google.common.base.MoreObjects;
-import com.google.common.base.Preconditions;
-import one.util.streamex.IntStreamEx;
 import one.util.streamex.StreamEx;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.springframework.jmx.export.annotation.ManagedOperation;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-
-import static javafx.scene.input.KeyCode.O;
 
 public class Question41634365 {
     BaseManager baseManager = new BaseManager();
@@ -33,6 +28,7 @@ public class Question41634365 {
                 .map(sqlItem -> buildJson(sqlItem.getKey(), sqlItem.getValue()))
                 .forEach(groupsBuilder::add);
     }
+    @ManagedOperation
 
     public void convertItemsToJSonStreamEx(List<Item> items) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -64,7 +60,6 @@ public class Question41634365 {
         public Object getCreatedBy() {
             return createdBy;
         }
-
 
 
         @Override
