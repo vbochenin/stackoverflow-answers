@@ -3,6 +3,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.Random;
 
 public class FindArrayTest {
 
@@ -41,13 +42,18 @@ public class FindArrayTest {
         Assert.assertEquals(3, findArray(new int[]{1, 2, 3, 1, 2, 3, 4}, new int[]{1, 2, 3, 4}));
         Assert.assertEquals(4, findArray(new int[]{1, 2, 3, 4, 1, 2, 3, 4}, new int[]{1, 2, 3, 4}));
         Assert.assertEquals(0, findArray(new int[]{1, 2, 3, 4, 1, 2, 3}, new int[]{1, 2, 3, 4}));
+        Assert.assertEquals(0, findArray(new int[]{1, 2, 2, 2, 2, 2, 2}, new int[]{1, 2, 2}));
+        Assert.assertEquals(4, findArray(new int[]{1, 2, 2, 2, 1,  2, 2, 2}, new int[]{1, 2, 2}));
     }
 
     @Test
     @Ignore
     public void performance() {
-        int[] array = generateArray(Integer.MAX_VALUE / 6, 0, 4);
-        int[] subarray = generateArray(Integer.MAX_VALUE / 6, 0, 3);
+        int[] array = generateArray(Integer.MAX_VALUE/6, 0, 4);
+        Random random = new Random();
+        int size = random.nextInt(array.length / 2);
+        int[] subarray = new int[size];
+        System.arraycopy(array, 5, subarray, 0, size);
 
         long current = System.currentTimeMillis();
         System.out.println("started");
@@ -129,8 +135,11 @@ public class FindArrayTest {
         }
 
         int point = subarray[subarray.length - 1];
-        for (int i = array.length - 1; i >= array.length - subarray.length; i--) {
+        for (int i = array.length - 1; i >= subarray.length-1; i--) {
             if (array[i] != point) {
+                continue;
+            }
+            if (array[i - subarray.length + 1] != subarray[0]) {
                 continue;
             }
             int k = i;
@@ -141,8 +150,8 @@ public class FindArrayTest {
                     break;
                 }
             }
-            if ((i-k) == subarray.length) {
-                return k+1;
+            if ((i - k) == subarray.length) {
+                return k + 1;
             }
         }
 
@@ -171,8 +180,10 @@ public class FindArrayTest {
 
     private int[] generateArray(int length, int start, int end) {
         int[] arr = new int[length];
-        for (int i = 0; i < arr.length; i++) {
-            arr[i] = i % end;
+        arr[0] = start;
+        Random random = new Random();
+        for (int i = 1; i < arr.length; i++) {
+            arr[i] = random.nextInt(end);
         }
         return arr;
     }
