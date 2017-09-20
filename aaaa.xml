@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:RulesTask xmlns:ns2="urn:com.ubs.fusa.owx.rulestaskmessage_2008-02-01">
+    <tradeReferenceId>43536322</tradeReferenceId>
+    <productType>IRD</productType>
+    <counterpartyName>ABC BANK</counterpartyName>
+    <counterpartyLongName>ABC BANK</counterpartyLongName>
+    <nextPaymentDate>
+        <default>true</default>
+        <dateTime>2017-09-06T15:54:00.992Z</dateTime>
+        <minDiff>0</minDiff>
+        <hourDiff>0</hourDiff>
+        <dayDiff>0</dayDiff>
+    </nextPaymentDate>
+    <clientLocation>UNITED KINGDOM</clientLocation>
+    <cashFlowFrequency>2M</cashFlowFrequency>
+    <bookName>BLA7</bookName>
+    <exceptionType>
+        <exceptionName>Preview Settlement</exceptionName>
+        <lookupType>EXCEPTION_TYPE</lookupType>
+        <exceptionGroup>Settlement</exceptionGroup>
+        <functionGroup>Settlements</functionGroup>
+    </exceptionType>
+    <counterpartyType></counterpartyType>
+    <expiryDate>
+        <dateTime></dateTime>
+        <minDiff>-3181914</minDiff>
+        <hourDiff>-53031</hourDiff>
+        <dayDiff>12</dayDiff>
+    </expiryDate>
+    <currency>USD</currency>
+    <confAge>
+        <default>true</default>
+        <dateTime>2017-09-06T15:54:00.902Z</dateTime>
+        <minDiff>0</minDiff>
+        <hourDiff>0</hourDiff>
+        <dayDiff>0</dayDiff>
+    </confAge>
+    <creditEvent></creditEvent>
+    <lastUpdated>
+        <default>true</default>
+        <dateTime>2017-09-06T15:54:00.991Z</dateTime>
+        <minDiff>0</minDiff>
+        <hourDiff>0</hourDiff>
+        <dayDiff>0</dayDiff>
+    </lastUpdated>
+    <assetflowSize>1.0E7</assetflowSize>
+    <assetflowCurrency>USD</assetflowCurrency>
+    <assetflowVD>
+        <default>true</default>
+        <dateTime>2017-09-06T15:54:00.900Z</dateTime>
+        <minDiff>0</minDiff>
+        <hourDiff>0</hourDiff>
+        <dayDiff>0</dayDiff>
+    </assetflowVD>
+    <currencyCutOffTime>
+        <dateTime></dateTime>
+        <minDiff>-4093434</minDiff>
+        <hourDiff>-68223</hourDiff>
+        <dayDiff>203</dayDiff>
+        <settlementLine>UBS LDN Equity</settlementLine>
+        <currency>USD</currency>
+    </currencyCutOffTime>
+    <SettDate>
+        <dateTime></dateTime>
+        <minDiff>-4093434</minDiff>
+        <hourDiff>-68223</hourDiff>
+        <dayDiff>203</dayDiff>
+        <settlementLine>UBS LDN Equity</settlementLine>
+        <currency>USD</currency>
+        <rollDate>false</rollDate>
+    </SettDate>
+    <idmsCode>0</idmsCode>
+    <settlementLine>UBS LDN Equity</settlementLine>
+    <defaultProcessingLocation>London</defaultProcessingLocation>
+    <processingLocation>London</processingLocation>
+    <riskClass>
+        <riskClass>#NONE_SET#</riskClass>
+        <alias>#NONE_SET#</alias>
+    </riskClass>
+    <exceptionReason>VALUEDATE,</exceptionReason>
+    <exceptionSourceInstance>boxer_otc</exceptionSourceInstance>
+    <taskRef>
+        <id>1</id>
+        <domain>OWX-d10-DEV</domain>
+        <version>1</version>
+    </taskRef>
+    <tleEventType>NEW</tleEventType>
+    <otfsProcessingLocation>London</otfsProcessingLocation>
+    <referenceEntity></referenceEntity>
+    <notional>2000000.0</notional>
+    <isOffshoreable></isOffshoreable>
+    <isCdcOffshoreable>true</isCdcOffshoreable>
+    <sensitive>N</sensitive>
+    <opEntity>46292</opEntity>
+    <cconsole>18439</cconsole>
+    <dtccId></dtccId>
+    <primaryReferenceType>settlement</primaryReferenceType>
+    <primaryReferenceDomain>OBS</primaryReferenceDomain>
+    <sourceExceptionCreateDate>
+        <dateTime>2010-04-29T10:54:29.692Z</dateTime>
+        <minDiff>-3869579</minDiff>
+        <hourDiff>-64492</hourDiff>
+        <dayDiff>92</dayDiff>
+    </sourceExceptionCreateDate>
+</ns2:RulesTask>

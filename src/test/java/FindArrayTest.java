@@ -126,6 +126,13 @@ public class FindArrayTest {
         return result;
     }
 
+    @Test
+    public void tt() {
+        String ss = "Exotic Client Rec WHT,VALUEDATE";
+        ss.matches("Exotic Client Rec WHT");
+
+    }
+
     private int findArrayTraverse(int[] array, int[] subarray) {
         if (array == null || array.length == 0 || subarray == null || subarray.length == 0) {
             return -1;
